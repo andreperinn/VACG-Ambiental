@@ -1,0 +1,357 @@
+/* ============================================
+   ESTILOS GERAIS
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-green: #27ae60;
+    --secondary-green: #16a085;
+    --light-green: #2ecc71;
+    --water-blue: #3498db;
+    --dark-green: #145a32;
+    --light-bg: #eafaf1;
+    --card-shadow: 0 8px 20px rgba(39, 174, 96, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #27ae60 0%, #16a085 100%);
+    min-height: 100vh;
+    padding: 20px 0;
+    color: #2c3e50;
+}
+.selecionado {
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+}
+
+/* ============================================
+   CONTAINER E LAYOUT
+   ============================================ */
+
+.container {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 20px;
+    margin: 20px auto;
+    box-shadow: 0 20px 60px rgba(39, 174, 96, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* ============================================
+   TÍTULO PRINCIPAL
+   ============================================ */
+
+h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #27ae60 0%, #16a085 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    letter-spacing: 0.5px;
+    animation: slideDown 0.8s ease-out;
+    font-family: 'Poppins', sans-serif;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+
+.card {
+    border: none;
+    border-radius: 15px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: var(--card-shadow);
+    background: linear-gradient(135deg, #ffffff 0%, #eafaf1 100%);
+    position: relative;
+    overflow: hidden;
+    border-left: 5px solid #27ae60;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(39, 174, 96, 0.1), transparent);
+    transition: left 0.5s;
+    z-index: 1;
+}
+
+.card:hover::before {
+    left: 100%;
+}
+
+.card:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 25px 50px rgba(39, 174, 96, 0.3);
+    border-left-color: #16a085;
+}
+
+.card:hover a {
+    color: #27ae60 !important;
+}
+
+.card-body {
+    padding: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #27ae60;
+    margin-bottom: 10px;
+    transition: color 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.card:hover .card-title {
+    color: #16a085;
+}
+
+.card-text {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+.overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.custom-modal {
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 16px;
+    width: 420px;
+    max-width: 90%;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+
+    transform: scale(0.8);
+    opacity: 0;
+    animation: modalOpen 0.3s ease forwards;
+}
+
+/* Botão fechar */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    transition: 0.2s;
+}
+
+.close-btn:hover {
+    transform: scale(1.2);
+    color: red;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalOpen {
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   CALENDÁRIO
+   ============================================ */
+
+h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #27ae60;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
+}
+
+h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #27ae60, #16a085);
+    border-radius: 2px;
+}
+
+/* Grid do calendário */
+[style*="display: grid"] {
+    animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Headers do calendário */
+[style*="font-weight: bold"][style*="padding: 8px"] {
+    color: #27ae60;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Dias do calendário */
+[style*="aspect-ratio: 1 / 1"] {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    background-color: #eafaf1 !important;
+    border: 2px solid #a9dfbf !important;
+    font-weight: 600;
+    color: #27ae60;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+}
+
+[style*="aspect-ratio: 1 / 1"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #27ae60, #16a085);
+    transition: left 0.4s;
+    z-index: -1;
+}
+
+[style*="aspect-ratio: 1 / 1"]:hover::before {
+    left: 0;
+}
+
+[style*="aspect-ratio: 1 / 1"]:hover {
+    color: white;
+    border-color: #27ae60 !important;
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(39, 174, 96, 0.3);
+}
+
+/* Dia selecionado */
+.calendar-day.selected {
+    background: linear-gradient(135deg, #27ae60, #16a085) !important;
+    color: white !important;
+    border-color: #27ae60 !important;
+    box-shadow: 0 10px 25px rgba(39, 174, 96, 0.3);
+}
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .card {
+        margin-bottom: 15px;
+    }
+
+    .card:hover {
+        transform: translateY(-10px) scale(1.02);
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* ============================================
+   ANIMAÇÕES ADICIONAIS
+   ============================================ */
+
+a.card {
+    text-decoration: none;
+}
+
+/* Scroll smooth */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Focus styles para acessibilidade */
+.card:focus-within {
+    outline: 3px solid #27ae60;
+    outline-offset: 2px;
+}
+
+/* ============================================
+   EFEITOS ESPECIAIS
+   ============================================ */
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(39, 174, 96, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(22, 160, 133, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
