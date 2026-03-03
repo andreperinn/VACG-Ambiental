@@ -2,8 +2,25 @@
 let diaAtualSelecionado = null;
 let indexAtualEdicao = null;
 
+// Persistência com localStorage
+function saveToStorage() {
+  localStorage.setItem("actividades", JSON.stringify(actividades));
+}
+
+function loadFromStorage() {
+  const data = localStorage.getItem("actividades");
+  if (data) {
+    try {
+      return JSON.parse(data);
+    } catch (e) {
+      console.error("Falha ao analisar dados do storage", e);
+    }
+  }
+  return null;
+}
+
 // Armazenar atividades como objetos (título + descrição detalhada)
-const actividades = {
+let actividades = loadFromStorage() || {
   1: [
     {
       titulo: "Planejamento",
@@ -143,6 +160,7 @@ function deletarAtividade(event, dia, index) {
     if (actividades[dia].length === 0) {
       delete actividades[dia];
     }
+    saveToStorage();
     mostrarAtividades(dia);
   }
 }
@@ -202,6 +220,9 @@ function salvarEdicao(event, dia, index) {
   actividades[dia][index].titulo = titulo;
   actividades[dia][index].descricao = descricao;
   actividades[dia][index].hora = hora;
+
+  // salvar no storage
+  saveToStorage();
 
   alert("Atividade atualizada com sucesso!");
   fecharModalEdicao();
@@ -283,6 +304,9 @@ document.addEventListener("DOMContentLoaded", function () {
         actividades[dia] = [novaAtividade];
       }
 
+      // salvar alterações no storage
+      saveToStorage();
+
       // Limpar inputs
       document.getElementById("inputTitulo").value = "";
       document.getElementById("inputDescricaoInterna").value = "";
@@ -313,7 +337,8 @@ function abrirModal(titulo) {
   const overlay = document.getElementById("overlay");
   const modalTitle = document.getElementById("modalTitle");
 
-  modalTitle.innerText = titulo;
+  // adiciona prefixo de cadastro
+  modalTitle.innerText = "Cadastre " + titulo.toLowerCase();
   overlay.classList.add("active");
 }
 

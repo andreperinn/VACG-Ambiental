@@ -633,49 +633,47 @@
     <script src="script.js"></script>
 
     <div id="overlay" class="overlay">
-      <div class="custom-modal">
-        <button class="close-btn" onclick="fecharModal()">✖</button>
-        <h2>Cadastro</h2>
-        <p>Conteúdo do modal aqui...</p>
-      </div>
       <div class="meu-modal">
         <h2 id="modalTitle"></h2>
 
-        <form id="formColeta">
-          <div class="form-group">
-            <label>Título</label>
-            <input
-              type="text"
-              id="inputTitulo"
-              placeholder="Ex: Coleta na região norte"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label>Descrição Interna</label>
-            <textarea
-              id="inputDescricaoInterna"
-              rows="3"
-              placeholder="Detalhes adicionais da atividade"
-              required
-            ></textarea>
-          </div>
+        <div class="modal-body">
+          <form id="formColeta">
+            <div class="form-group">
+              <label>Título</label>
+              <input
+                type="text"
+                id="inputTitulo"
+                placeholder="Ex: Coleta na região norte"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Descrição Interna</label>
+              <textarea
+                id="inputDescricaoInterna"
+                rows="3"
+                placeholder="Detalhes adicionais da atividade"
+                required
+              ></textarea>
+            </div>
 
-          <div class="form-group">
-            <label>Data</label>
-            <input type="date" id="inputData" required />
-          </div>
+            <div class="form-group">
+              <label>Data</label>
+              <input type="date" id="inputData" required />
+            </div>
 
-          <div class="form-group">
-            <label>Hora</label>
-            <input type="time" id="inputHora" required />
-          </div>
+            <div class="form-group">
+              <label>Hora</label>
+              <input type="time" id="inputHora" required />
+            </div>
 
-          <div class="button-group">
-            <button type="submit">Salvar Atividade</button>
-            <button type="button" onclick="fecharModal()">Cancelar</button>
-          </div>
-        </form>
+            <div class="button-group">
+              <button type="submit">Salvar Atividade</button>
+              <button type="button" onclick="fecharModal()">Cancelar</button>
+            </div>
+          </form>
+        </div>
+        <!-- fim modal-body -->
       </div>
     </div>
 
