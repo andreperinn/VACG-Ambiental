@@ -1,4 +1,4 @@
-//exemplo
+// exemplo
 const actividades = {
     1: ['Reunião de planejamento - 09:00', 'Coleta de óleo - 14:00'],
     5: ['Inspeção de água - 10:00', 'Relatório mensal - 15:30'],
@@ -9,15 +9,14 @@ const actividades = {
     31: ['Relatório final do mês - 16:00']
 };
 
-//DOM manipula todo o HTML
-document.addEventListener('DOMContentLoaded', function() {
-
+// DOM manipula todo o HTML
+document.addEventListener('DOMContentLoaded', function () {
     const hoje = new Date().getDate();
     const dias = document.querySelectorAll('.calendar-day');
     const container = document.querySelector('.activities-container');
 
     // seleciona o dia atual
-    dias.forEach(day => {
+    dias.forEach((day) => {
         const dayNum = parseInt(day.getAttribute('data-day'));
 
         if (dayNum === hoje) {
@@ -25,12 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
             mostrarAtividades(dayNum);
         }
 
-        //clique manual
-        day.addEventListener('click', function() {
-
-            document.querySelectorAll('.calendar-day.selected').forEach(d => {
-                d.classList.remove('selected');
-            });
+        // clique manual
+        day.addEventListener('click', function () {
+            document
+                .querySelectorAll('.calendar-day.selected')
+                .forEach((d) => {
+                    d.classList.remove('selected');
+                });
 
             this.classList.add('selected');
 
@@ -39,56 +39,45 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    //funcao de mostar as mostrar atividades
+    // função de mostrar as atividades
     function mostrarAtividades(dayNum) {
-
         const dayActivities = actividades[dayNum] || [];
 
         if (dayActivities.length > 0) {
             let html = '<h5>Dia ' + dayNum + ' de Março</h5>';
             html += '<ul>';
 
-            dayActivities.forEach(atividade => {
+            dayActivities.forEach((atividade) => {
                 html += '<li>' + atividade + '</li>';
             });
 
             html += '</ul>';
             container.innerHTML = html;
-
         } else {
-            container.innerHTML = '<p>Nenhuma atividade programada para este dia</p>';
+            container.innerHTML =
+                '<p>Nenhuma atividade programada para este dia</p>';
         }
     }
 
-
-
-    document.getElementById("btnOleo").addEventListener("click", function(e){
+    document.getElementById('btnOleo').addEventListener('click', function (e) {
         e.preventDefault(); // impede de ir pra outra página
-        abrirModal("Coleta de Óleo");
+        abrirModal('Coleta de Óleo');
     });
 
-    document.getElementById("btnAgua").addEventListener("click", function(e){
+    document.getElementById('btnAgua').addEventListener('click', function (e) {
         e.preventDefault();
-        abrirModal("Coleta de Água");
+        abrirModal('Coleta de Água');
     });
 });
+
 function abrirModal(titulo) {
-    const overlay = document.getElementById("overlay");
-    const modalTitle = document.getElementById("modalTitle");
+    const overlay = document.getElementById('overlay');
+    const modalTitle = document.getElementById('modalTitle');
 
     modalTitle.innerText = titulo; // coloca o título no modal
-    overlay.classList.add("active");
+    overlay.classList.add('active');
 }
 
 function fecharModal() {
-    document.getElementById("overlay").classList.remove("active");
+    document.getElementById('overlay').classList.remove('active');
 }
-
-
-
-
-
-
-
-
-

@@ -21,12 +21,14 @@
 }
 
 body {
-    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana,
+        sans-serif;
     background: linear-gradient(135deg, #27ae60 0%, #16a085 100%);
     min-height: 100vh;
     padding: 20px 0;
     color: #2c3e50;
 }
+
 .selecionado {
     background-color: #007bff;
     color: white;
@@ -80,7 +82,8 @@ h1 {
 .card {
     border: none;
     border-radius: 15px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.4s
+        cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: var(--card-shadow);
     background: linear-gradient(135deg, #ffffff 0%, #eafaf1 100%);
     position: relative;
@@ -95,7 +98,12 @@ h1 {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(39, 174, 96, 0.1), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(39, 174, 96, 0.1),
+        transparent
+    );
     transition: left 0.5s;
     z-index: 1;
 }
@@ -140,7 +148,6 @@ h1 {
     font-family: 'Poppins', sans-serif;
 }
 
-
 .overlay {
     position: fixed;
     inset: 0;
@@ -166,7 +173,7 @@ h1 {
     width: 420px;
     max-width: 90%;
 
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 
     transform: scale(0.8);
     opacity: 0;
@@ -192,8 +199,12 @@ h1 {
 
 /* Animações */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes modalOpen {
@@ -235,15 +246,6 @@ h3::after {
     animation: fadeIn 0.6s ease-out 0.3s both;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 /* Headers do calendário */
 [style*="font-weight: bold"][style*="padding: 8px"] {
     color: #27ae60;
@@ -256,7 +258,8 @@ h3::after {
 
 /* Dias do calendário */
 [style*="aspect-ratio: 1 / 1"] {
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s
+        cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
     background-color: #eafaf1 !important;
     border: 2px solid #a9dfbf !important;
@@ -350,8 +353,16 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 20% 50%, rgba(39, 174, 96, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(22, 160, 133, 0.1) 0%, transparent 50%);
+    background: radial-gradient(
+            circle at 20% 50%,
+            rgba(39, 174, 96, 0.1) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(22, 160, 133, 0.1) 0%,
+            transparent 50%
+        );
     pointer-events: none;
     z-index: -1;
 }
