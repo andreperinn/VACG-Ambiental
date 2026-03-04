@@ -1,6 +1,83 @@
 // Variáveis globais
 let diaAtualSelecionado = null;
 let indexAtualEdicao = null;
+let currentYear = null;
+let currentMonth = null; // zero‑based index (0 = janeiro)
+
+// month name helpers used in several places
+const monthNames = [
+  "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+  "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"
+];
+
+// build the grid for a given year/month and attach click handlers
+function renderCalendar(year, month) {
+  currentYear = year;
+  currentMonth = month;
+  const label = document.getElementById("monthYear");
+  if (label) {
+    label.textContent = `${monthNames[month]} ${year}`;
+  }
+
+  const grid = document.getElementById("calendarGrid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  const dayNames = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
+  dayNames.forEach((name) => {
+    const hdr = document.createElement("div");
+    hdr.style.textAlign = "center";
+    hdr.style.fontWeight = "bold";
+    hdr.style.padding = "8px";
+    hdr.textContent = name;
+    grid.appendChild(hdr);
+  });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement("div");
+    grid.appendChild(empty);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const cell = document.createElement("div");
+    cell.className = "calendar-day";
+    cell.setAttribute("data-day", day);
+    cell.style.cssText =
+      "aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; " +
+      "border: 1px solid #ddd; border-radius: 6px; background-color: #f8f9fa; cursor: pointer;";
+    cell.textContent = day;
+    cell.addEventListener("click", function () {
+      document.querySelectorAll(".calendar-day.selected").forEach((d) => d.classList.remove("selected"));
+      this.classList.add("selected");
+      mostrarAtividades(day);
+    });
+    grid.appendChild(cell);
+  }
+}
+
+function prevMonth() {
+  let m = currentMonth - 1;
+  let y = currentYear;
+  if (m < 0) {
+    m = 11;
+    y -= 1;
+  }
+  renderCalendar(y, m);
+}
+
+function nextMonth() {
+  let m = currentMonth + 1;
+  let y = currentYear;
+  if (m > 11) {
+    m = 0;
+    y += 1;
+  }
+  renderCalendar(y, m);
+}
+
 
 // Persistência com localStorage
 function saveToStorage() {
@@ -19,80 +96,53 @@ function loadFromStorage() {
   return null;
 }
 
+// oil entries storage
+function saveOleo() {
+  localStorage.setItem("oleoEntries", JSON.stringify(oleoEntries));
+}
+
+function loadOleo() {
+  const data = localStorage.getItem("oleoEntries");
+  if (data) {
+    try {
+      return JSON.parse(data);
+    } catch (e) {
+      console.error("Falha ao analisar oleoEntries", e);
+    }
+  }
+  return [];
+}
+
 // Armazenar atividades como objetos (título + descrição detalhada)
-let actividades = loadFromStorage() || {
-  1: [
-    {
-      titulo: "Planejamento",
-      descricao: "Reunião de planejamento",
-      hora: "09:00",
-      dia: 1,
-    },
-    { titulo: "Óleo", descricao: "Coleta de óleo", hora: "14:00", dia: 1 },
-  ],
-  5: [
-    { titulo: "Água", descricao: "Inspeção de água", hora: "10:00", dia: 5 },
-    {
-      titulo: "Relatório",
-      descricao: "Relatório mensal",
-      hora: "15:30",
-      dia: 5,
-    },
-  ],
-  10: [
-    { titulo: "Limpeza", descricao: "Limpeza de área", hora: "08:00", dia: 10 },
-    {
-      titulo: "Verificação",
-      descricao: "Verificação ambiental",
-      hora: "13:00",
-      dia: 10,
-    },
-  ],
-  15: [
-    {
-      titulo: "Treinamento",
-      descricao: "Treinamento de equipe",
-      hora: "09:00",
-      dia: 15,
-    },
-    {
-      titulo: "Amostra",
-      descricao: "Coleta de amostra",
-      hora: "16:00",
-      dia: 15,
-    },
-  ],
-  20: [
-    {
-      titulo: "Manutenção",
-      descricao: "Manutenção de equipamentos",
-      hora: "10:00",
-      dia: 20,
-    },
-  ],
-  25: [
-    {
-      titulo: "Avaliação",
-      descricao: "Avaliação de impacto",
-      hora: "14:00",
-      dia: 25,
-    },
-    {
-      titulo: "Documentação",
-      descricao: "Documentação",
-      hora: "15:00",
-      dia: 25,
-    },
-  ],
-  31: [
-    {
-      titulo: "Relatório final",
-      descricao: "Relatório final do mês",
-      hora: "16:00",
-      dia: 31,
-    },
-  ],
-};
+// When storage is empty we start with an empty object.  The previous version
+// seeded a bunch of sample activities which would re‑appear whenever the
+// user cleared their storage (for example by pressing F12 and running
+// `localStorage.removeItem('actividades')` or if the browser cleaned it up
+// overnight).  To avoid that behaviour we start with an empty collection.
+let actividades = loadFromStorage() || {};  // no default "potatoes"
+let oleoEntries = loadOleo();
+let editingOleoIndex = null; // when editing an existing oil record
+
+// recalc and render the summary fields
+function updateOilSummary() {
+  const totalLitros = oleoEntries.reduce((sum, e) => sum + (e.litros || 0), 0);
+  const totalProfit = oleoEntries.reduce(
+    (sum, e) => sum + (e.litros || 0) * (e.preco || 0) * 4,
+    0,
+  );
+  document.getElementById("totalLitros").textContent = totalLitros.toFixed(2);
+  document.getElementById("totalProfit").textContent = totalProfit.toFixed(2);
+}
+
+
+// If you still want a way to wipe everything from both memory and storage you
+// can call `resetActivities()` from the console or hook it up to a button:
+function resetActivities() {
+  actividades = {};
+  localStorage.removeItem('actividades');
+  mostrarAtividades(diaAtualSelecionado || new Date().getDate());
+}
+
 
 // função de mostrar as atividades
 function mostrarAtividades(dayNum) {
@@ -101,7 +151,8 @@ function mostrarAtividades(dayNum) {
   const dayActivities = actividades[dayNum] || [];
 
   if (dayActivities.length > 0) {
-    let html = "<h5>Dia " + dayNum + " de Março</h5>";
+    const monthLabel = currentMonth != null ? monthNames[currentMonth] : "";
+    let html = "<h5>Dia " + dayNum + " de " + monthLabel + "</h5>";
     html += "<ul>";
 
     dayActivities.forEach((atividade, index) => {
@@ -231,52 +282,145 @@ function salvarEdicao(event, dia, index) {
 
 // DOM manipula todo o HTML
 document.addEventListener("DOMContentLoaded", function () {
-  const hoje = new Date().getDate();
-  const dias = document.querySelectorAll(".calendar-day");
+  // build calendar for the current month/year and wire up day clicks
+  const today = new Date();
+  currentYear = today.getFullYear();
+  currentMonth = today.getMonth(); // zero-based
+  renderCalendar(currentYear, currentMonth);
 
-  // seleciona o dia atual
-  dias.forEach((day) => {
-    const dayNum = parseInt(day.getAttribute("data-day"));
+  // after rendering select today if present
+  const hoje = today.getDate();
+  const todayCell = document.querySelector(`.calendar-day[data-day="${hoje}"]`);
+  if (todayCell) {
+    todayCell.classList.add("selected");
+    mostrarAtividades(hoje);
+  }
 
-    if (dayNum === hoje) {
-      day.classList.add("selected");
-      mostrarAtividades(dayNum);
-    }
+  // update summary right away
+  updateOilSummary();
 
-    // clique manual
-    day.addEventListener("click", function () {
-      document.querySelectorAll(".calendar-day.selected").forEach((d) => {
-        d.classList.remove("selected");
-      });
+  // note: renderCalendar attaches the click handlers for all days
 
-      this.classList.add("selected");
 
-      const diaClicado = parseInt(this.getAttribute("data-day"));
-      mostrarAtividades(diaClicado);
-    });
-  });
-
+    // card buttons
   document.getElementById("btnOleo").addEventListener("click", function (e) {
     e.preventDefault();
-    abrirModal("Coleta de Óleo");
+    abrirModal("activity", "Coletas de óleo");
   });
 
-  document.getElementById("btnAgua").addEventListener("click", function (e) {
+  document.getElementById("btnControleOleo").addEventListener("click", function (e) {
     e.preventDefault();
-    abrirModal("Coleta de Água");
+    editingOleoIndex = null; // new entry
+    abrirModal("oilControl", "Controle do óleo");
   });
 
-  // Salvar atividade no calendário
-  document
-    .getElementById("formColeta")
-    .addEventListener("submit", function (e) {
+  // the form's submit handler is set when the modal is opened; earlier we
+  // used to attach a global listener but that's no longer needed
+
+  // view records button
+  document.getElementById("btnVerRegistros").addEventListener("click", function () {
+    openOleoRecords();
+  });
+
+});
+
+// abre o modal e ajusta campos dependendo do modo solicitado
+// mode can be 'activity' (atividades gerais) or 'oilControl'
+function abrirModal(mode, title) {
+  const overlay = document.getElementById("overlay");
+  const modalTitle = document.getElementById("modalTitle");
+  const body = document.getElementById("formColetaBody");
+  const submitBtn = document.getElementById("formSubmitBtn");
+
+  modalTitle.innerText = "Cadastre " + title.toLowerCase();
+
+  if (mode === "oilControl") {
+    body.innerHTML = `
+      <div class="form-group">
+        <label>Empreendimento</label>
+        <input type="text" id="inputEmpreendimento" required />
+      </div>
+      <div class="form-group">
+        <label>Litros</label>
+        <input type="number" id="inputLitros" step="0.01" required />
+      </div>
+      <div class="form-group">
+        <label>R$ do litro</label>
+        <input type="number" id="inputPreco" step="0.01" required />
+      </div>
+    `;
+    // if we are editing an existing record, prefill values
+    if (editingOleoIndex !== null && oleoEntries[editingOleoIndex]) {
+      const e = oleoEntries[editingOleoIndex];
+      // after DOM insertion, set timeout to allow elements to exist
+      setTimeout(() => {
+        document.getElementById("inputEmpreendimento").value = e.empreendimento;
+        document.getElementById("inputLitros").value = e.litros;
+        document.getElementById("inputPreco").value = e.preco;
+      }, 0);
+    }
+
+    document.getElementById("formColeta").onsubmit = function (e) {
       e.preventDefault();
+      const emp = document.getElementById("inputEmpreendimento").value;
+      const litros = parseFloat(document.getElementById("inputLitros").value);
+      const preco = parseFloat(document.getElementById("inputPreco").value);
+      if (!emp || isNaN(litros) || isNaN(preco)) {
+        alert("Preencha todos os campos!");
+        return;
+      }
+      if (editingOleoIndex === null) {
+        oleoEntries.push({ empreendimento: emp, litros, preco, date: new Date() });
+      } else {
+        oleoEntries[editingOleoIndex] = { empreendimento: emp, litros, preco, date: oleoEntries[editingOleoIndex].date };
+      }
+      saveOleo();
+      updateOilSummary();
+      if (document.getElementById("modalOleoRecords").classList.contains("active")) {
+        renderOleoTable();
+      }
+      alert("Registro de óleo salvo!");
+      fecharModal();
+      editingOleoIndex = null;
+    };
+    submitBtn.textContent = editingOleoIndex === null ? "Salvar" : "Atualizar";
+  } else {
+    // formulário padrão de atividade
+    body.innerHTML = `
+      <div class="form-group">
+        <label>Título</label>
+        <input
+          type="text"
+          id="inputTitulo"
+          placeholder="Ex: Coleta na região norte"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label>Descrição Interna</label>
+        <textarea
+          id="inputDescricaoInterna"
+          rows="3"
+          placeholder="Detalhes adicionais da atividade"
+          required
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label>Data</label>
+        <input type="date" id="inputData" required />
+      </div>
+      <div class="form-group">
+        <label>Hora</label>
+        <input type="time" id="inputHora" required />
+      </div>
+    `;
+
+    document.getElementById("formColeta").onsubmit = function (event) {
+      event.preventDefault();
 
       // Pegar dados do formulário
       const titulo = document.getElementById("inputTitulo").value;
-      const descricaoInterna = document.getElementById(
-        "inputDescricaoInterna",
-      ).value;
+      const descricaoInterna = document.getElementById("inputDescricaoInterna").value;
       const data = document.getElementById("inputData").value;
       const hora = document.getElementById("inputHora").value;
 
@@ -330,18 +474,58 @@ document.addEventListener("DOMContentLoaded", function () {
         diaElement.classList.add("selected");
         mostrarAtividades(dia);
       }
-    });
-});
+    };
+    submitBtn.textContent = "Salvar Atividade";
+  }
 
-function abrirModal(titulo) {
-  const overlay = document.getElementById("overlay");
-  const modalTitle = document.getElementById("modalTitle");
-
-  // adiciona prefixo de cadastro
-  modalTitle.innerText = "Cadastre " + titulo.toLowerCase();
   overlay.classList.add("active");
 }
 
 function fecharModal() {
   document.getElementById("overlay").classList.remove("active");
+  editingOleoIndex = null;
 }
+
+// registros modal helpers
+function openOleoRecords() {
+  renderOleoTable();
+  document.getElementById("modalOleoRecords").classList.add("active");
+}
+function fecharModalOleoRecords() {
+  document.getElementById("modalOleoRecords").classList.remove("active");
+}
+
+function renderOleoTable() {
+  const container = document.getElementById("oleoTableContainer");
+  if (!container) return;
+  if (oleoEntries.length === 0) {
+    container.innerHTML = "<p>Nenhum registro cadastrado.</p>";
+    return;
+  }
+  let html = "<table class='table table-sm'><thead><tr>" +
+             "<th>Empresa</th><th>Litros</th><th>Preço</th><th>Data</th><th>Ações</th></tr></thead><tbody>";
+  oleoEntries.forEach((e, i) => {
+    const dateStr = new Date(e.date).toLocaleString();
+    html += `<tr><td>${e.empreendimento}</td><td>${e.litros}</td><td>${e.preco}</td><td>${dateStr}</td><td>` +
+            `<button class="btn btn-sm btn-secondary me-1" onclick="editarOleo(${i})">✎</button>` +
+            `<button class="btn btn-sm btn-danger" onclick="deletarOleo(${i})">✕</button>` +
+            `</td></tr>`;
+  });
+  html += "</tbody></table>";
+  container.innerHTML = html;
+}
+
+function editarOleo(index) {
+  editingOleoIndex = index;
+  abrirModal("oilControl", "Controle do óleo");
+}
+
+function deletarOleo(index) {
+  if (confirm("Deseja remover este registro?")) {
+    oleoEntries.splice(index, 1);
+    saveOleo();
+    updateOilSummary();
+    renderOleoTable();
+  }
+}
+
