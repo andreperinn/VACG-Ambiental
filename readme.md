@@ -31,3 +31,7 @@ https://seuusuario.github.io/VACG-Ambiental/
 ## 👨‍💻 Autor
 
 Projeto desenvolvido por André Perin.
+
+## 💻 Tela do sistema
+
+![](img/inicial.png)
