@@ -2,15 +2,13 @@
 let diaAtualSelecionado = null;
 let indexAtualEdicao = null;
 let currentYear = null;
-let currentMonth = null; // zero‑based index (0 = janeiro)
+let currentMonth = null; 
 
-// month name helpers used in several places
 const monthNames = [
   "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
   "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"
 ];
 
-// build the grid for a given year/month and attach click handlers
 function renderCalendar(year, month) {
   currentYear = year;
   currentMonth = month;
@@ -113,15 +111,10 @@ function loadOleo() {
   return [];
 }
 
-// Armazenar atividades como objetos (título + descrição detalhada)
-// When storage is empty we start with an empty object.  The previous version
-// seeded a bunch of sample activities which would re‑appear whenever the
-// user cleared their storage (for example by pressing F12 and running
-// `localStorage.removeItem('actividades')` or if the browser cleaned it up
-// overnight).  To avoid that behaviour we start with an empty collection.
-let actividades = loadFromStorage() || {};  // no default "potatoes"
+
+let actividades = loadFromStorage() || {};  
 let oleoEntries = loadOleo();
-let editingOleoIndex = null; // when editing an existing oil record
+let editingOleoIndex = null; 
 
 // recalc and render the summary fields
 function updateOilSummary() {
@@ -135,8 +128,7 @@ function updateOilSummary() {
 }
 
 
-// If you still want a way to wipe everything from both memory and storage you
-// can call `resetActivities()` from the console or hook it up to a button:
+
 function resetActivities() {
   actividades = {};
   localStorage.removeItem('actividades');
@@ -282,13 +274,11 @@ function salvarEdicao(event, dia, index) {
 
 // DOM manipula todo o HTML
 document.addEventListener("DOMContentLoaded", function () {
-  // build calendar for the current month/year and wire up day clicks
   const today = new Date();
   currentYear = today.getFullYear();
-  currentMonth = today.getMonth(); // zero-based
+  currentMonth = today.getMonth(); 
   renderCalendar(currentYear, currentMonth);
 
-  // after rendering select today if present
   const hoje = today.getDate();
   const todayCell = document.querySelector(`.calendar-day[data-day="${hoje}"]`);
   if (todayCell) {
@@ -296,13 +286,10 @@ document.addEventListener("DOMContentLoaded", function () {
     mostrarAtividades(hoje);
   }
 
-  // update summary right away
   updateOilSummary();
 
-  // note: renderCalendar attaches the click handlers for all days
 
 
-    // card buttons
   document.getElementById("btnOleo").addEventListener("click", function (e) {
     e.preventDefault();
     abrirModal("activity", "Coletas de óleo");
@@ -310,22 +297,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById("btnControleOleo").addEventListener("click", function (e) {
     e.preventDefault();
-    editingOleoIndex = null; // new entry
+    editingOleoIndex = null; 
     abrirModal("oilControl", "Controle do óleo");
   });
 
-  // the form's submit handler is set when the modal is opened; earlier we
-  // used to attach a global listener but that's no longer needed
 
-  // view records button
   document.getElementById("btnVerRegistros").addEventListener("click", function () {
     openOleoRecords();
   });
 
 });
 
-// abre o modal e ajusta campos dependendo do modo solicitado
-// mode can be 'activity' (atividades gerais) or 'oilControl'
+
 function abrirModal(mode, title) {
   const overlay = document.getElementById("overlay");
   const modalTitle = document.getElementById("modalTitle");
@@ -349,10 +332,8 @@ function abrirModal(mode, title) {
         <input type="number" id="inputPreco" step="0.01" required />
       </div>
     `;
-    // if we are editing an existing record, prefill values
     if (editingOleoIndex !== null && oleoEntries[editingOleoIndex]) {
       const e = oleoEntries[editingOleoIndex];
-      // after DOM insertion, set timeout to allow elements to exist
       setTimeout(() => {
         document.getElementById("inputEmpreendimento").value = e.empreendimento;
         document.getElementById("inputLitros").value = e.litros;
@@ -385,7 +366,6 @@ function abrirModal(mode, title) {
     };
     submitBtn.textContent = editingOleoIndex === null ? "Salvar" : "Atualizar";
   } else {
-    // formulário padrão de atividade
     body.innerHTML = `
       <div class="form-group">
         <label>Título</label>
@@ -418,7 +398,6 @@ function abrirModal(mode, title) {
     document.getElementById("formColeta").onsubmit = function (event) {
       event.preventDefault();
 
-      // Pegar dados do formulário
       const titulo = document.getElementById("inputTitulo").value;
       const descricaoInterna = document.getElementById("inputDescricaoInterna").value;
       const data = document.getElementById("inputData").value;
@@ -429,11 +408,9 @@ function abrirModal(mode, title) {
         return;
       }
 
-      // Extrair o dia da data (formato AAAA-MM-DD)
       const dataParts = data.split("-");
       const dia = parseInt(dataParts[2]);
 
-      // Criar objeto de atividade
       const novaAtividade = {
         titulo: titulo,
         descricao: descricaoInterna,
@@ -441,26 +418,21 @@ function abrirModal(mode, title) {
         dia: dia,
       };
 
-      // Adicionar ao objeto actividades
       if (actividades[dia]) {
         actividades[dia].push(novaAtividade);
       } else {
         actividades[dia] = [novaAtividade];
       }
 
-      // salvar alterações no storage
       saveToStorage();
 
-      // Limpar inputs
       document.getElementById("inputTitulo").value = "";
       document.getElementById("inputDescricaoInterna").value = "";
       document.getElementById("inputData").value = "";
       document.getElementById("inputHora").value = "";
 
-      // Mostrar mensagem de sucesso
       alert("Atividade cadastrada com sucesso!");
 
-      // Fechar modal
       fecharModal();
 
       // Selecionar e mostrar o dia no calendário

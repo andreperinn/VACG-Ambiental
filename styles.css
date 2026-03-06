@@ -40,15 +40,6 @@ body {
   color: #fff;
 }
 
-/* oil summary styling */
-#oilSummary {
-  background: linear-gradient(135deg, #27ae60 0%, #16a085 100%);
-  padding: 30px 40px;
-  border-radius: 20px;
-  box-shadow: 0 15px 45px rgba(39, 174, 96, 0.35), 0 0 30px rgba(39, 174, 96, 0.15);
-  position: relative;
-  overflow: hidden;
-}
 
 #oilSummary::before {
   content: "";
@@ -123,7 +114,7 @@ body {
   color: #fff;
   font-weight: 600;
   border: 2px solid #ffffff;
-  box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
+  box-shadow: 0 8px 20px rgba(39, 174, 96, 0.6);
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   padding: 8px 20px;
   font-size: 0.85rem;
@@ -143,7 +134,7 @@ body {
   background: rgba(255, 255, 255, 0.97);
   border-radius: 20px;
   margin: 20px auto;
-  box-shadow: 0 20px 60px rgba(39, 174, 96, 0.2);
+  box-shadow: 0 20px 60px rgba(39, 174, 96, 0.6);
   backdrop-filter: blur(10px);
 }
 
@@ -189,7 +180,7 @@ h1 {
   overflow: hidden;
   border-left: 5px solid #27ae60;
   height: 100%;
-  min-height: 200px;
+  min-height: 140px;
   display: flex;
   flex-direction: column;
 }
@@ -226,7 +217,7 @@ h1 {
 }
 
 .card-body {
-  padding: 2rem;
+  padding: 1.5rem;
   position: relative;
   z-index: 2;
   display: flex;
@@ -236,7 +227,7 @@ h1 {
 }
 
 .card-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #27ae60;
   margin-bottom: 10px;
@@ -275,6 +266,8 @@ h1 {
   display: flex;
   animation: fadeIn 0.3s ease;
 }
+
+
 
 /* Botão fechar */
 .close-btn {
@@ -429,7 +422,7 @@ h1 {
 
 .meu-modal button[type="submit"] {
   background: linear-gradient(135deg, #27ae60, #16a085);
-  color: white;
+  color: rgb(255, 255, 255);
   margin-bottom: 8px;
 }
 
@@ -444,7 +437,7 @@ h1 {
 
 .meu-modal button[type="button"] {
   background-color: #e0e0e0;
-  color: #2c3e50;
+  color: #000000;
 }
 
 .meu-modal button[type="button"]:hover {
@@ -480,6 +473,8 @@ h1 {
 .meu-modal .button-group button {
   flex: 1;
 }
+
+
 
 /* ============================================
    LISTA DE ATIVIDADES
@@ -793,6 +788,21 @@ h1 {
   flex: 1;
 }
 
+.btn-ver-registros {
+  background: linear-gradient(135deg, #27ae60, #16a085);
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-ver-registros:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(39, 174, 96, 0.3);
+}
+
 .btn-salvar-edicao {
   background: linear-gradient(135deg, #27ae60, #16a085);
   color: white;
@@ -812,6 +822,193 @@ h1 {
 .btn-cancelar-edicao:hover {
   background-color: #d0d0d0;
   transform: translateY(-2px);
+}
+
+
+#oilSummary {
+  padding: 25px 0;
+}
+
+#oilSummary {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+#oilSummary .col-auto:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.2);
+}
+
+#oilSummary strong {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #6c757d;
+  text-transform: uppercase;
+}
+
+#oilSummary span {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+#totalLitros {
+  color: #198754;
+}
+
+#totalProfit {
+  color: #0d6efd;
+}
+
+#btnVerRegistros {
+  background: #198754;
+  color: #198754;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(25,135,84,0.4);
+  transition: 0.2s;
+}
+
+#btnVerRegistros:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(20, 243, 139, 0.5);
+}
+
+.stats-cards {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.stat-card {
+  width: 160px;
+  height: 110px;
+
+  border-radius: 15px;
+  border-left: 5px solid #27ae60;
+
+  background: linear-gradient(135deg, #a30101 0%, #6ffcac 100%);
+
+  box-shadow: 0 15px 35px rgba(39, 174, 96, 0.15);
+
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(39, 174, 96, 0.25);
+}
+
+.stat-card h6 {
+  font-size: 0.8rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.stat-card h4 {
+  color: #27ae60;
+  font-weight: 700;
+}
+
+
+
+
+
+.calendar-nav-btn {
+  background: #27ae60;
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-nav-btn:hover {
+  background: #219150;
+  transform: scale(1.1);
+}
+
+.calendar-nav-btn:active {
+  transform: scale(0.95);
+}
+
+
+.stats-cards {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.stat-card {
+  width: 160px;
+  height: 110px;
+
+  border-radius: 15px;
+  border-left: 5px solid #27ae60;
+
+  background: linear-gradient(135deg, #ffffff 0%, #eafaf1 100%);
+
+  box-shadow: 0 15px 35px rgba(39, 174, 96, 0.15);
+
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(39, 174, 96, 0.25);
+}
+
+.stat-card h6 {
+  font-size: 0.8rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.stat-card h4 {
+  color: #27ae60;
+  font-weight: 700;
+}
+
+
+.btn-ver-registros {
+  background: linear-gradient(135deg, #27ae60, #16a085);
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-ver-registros:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(39, 174, 96, 0.3);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.activities-container {
+  background: linear-gradient(135deg, #eafaf1 0%, #d5f4e6 100%);
+  border-radius: 15px;
+  padding: 20px;
+  border-left: 5px solid #27ae60;
+  min-height: 400px;
 }
 
 /* Animações */
@@ -989,4 +1186,28 @@ body::before {
 .row.flex-nowrap > .col-sm-3 {
   flex: 1 1 auto !important;
   max-width: none !important;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+@media (max-width: 1024px) {
+  .cards-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
 }

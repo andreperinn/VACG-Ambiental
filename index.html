@@ -1,250 +1,225 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sistema VACG</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="container py-4">
-      <h1 class="text-center mb-5">VACG - Ambiental</h1>
 
-      <!-- Seção de Cards -->
-      <div class="mb-5">
-        <div class="row flex-nowrap gx-3 justify-content-center">
-          <div class="col-sm-3 mb-3 mb-sm-0">
-            <a href="#" class="card text-decoration-none text-body">
-              <div class="card-body">
-                <h5 class="card-title">Agenda</h5>
-                <p class="card-text">
-                  Planeje sua rotina e atividades do dia a dia
-                </p>
-              </div>
-            </a>
-          </div>
-          <div class="col-sm-3 mb-3 mb-sm-0">
-            <a
-              href="#"
-              id="btnOleo"
-              class="card text-decoration-none text-body"
-            >
-              <div class="card-body">
-                <h5 class="card-title">Coletas de óleo/Agua</h5>
-                <p class="card-text">Organize suas coletas de Oleo e Agua</p>
-              </div>
-            </a>
-          </div>
-          <div class="col-sm-3 mb-3 mb-sm-0">
-            <a
-              href="#"
-              id="btnControleOleo"
-              class="card text-decoration-none text-body"
-            >
-              <div class="card-body">
-                <h5 class="card-title">Controle do óleo</h5>
-                <p class="card-text">Controle da base do óleo e lucro</p>
-              </div>
-            </a>
-          </div>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sistema VACG</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+
+<body>
+  <div class="container py-4">
+    <h1 class="text-center mb-5">VACG - Ambiental</h1>
+
+    <!-- Seção de Cards -->
+    <div class="mb-5">
+      <div class="row flex-nowrap gx-3 justify-content-center">
+        <div class="col-sm-3 mb-3 mb-sm-0">
+          <a href="#" class="card text-decoration-none text-body">
+            <div class="card-body">
+              <h5 class="card-title">Agenda</h5>
+              <p class="card-text">
+                Planeje sua rotina e atividades do dia a dia
+              </p>
+            </div>
+          </a>
+        </div>
+        <div class="col-sm-3 mb-3 mb-sm-0">
+          <a href="#" id="btnOleo" class="card text-decoration-none text-body">
+            <div class="card-body">
+              <h5 class="card-title">Coletas de óleo/Agua</h5>
+              <p class="card-text">Organize suas coletas de Oleo e Agua</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-sm-3 mb-3 mb-sm-0">
+          <a href="#" id="btnControleOleo" class="card text-decoration-none text-body">
+            <div class="card-body">
+              <h5 class="card-title">Controle do óleo</h5>
+              <p class="card-text">Controle da base do óleo e lucro</p>
+            </div>
+          </a>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Sumário de óleo -->
-    <div id="oilSummary" class="container mb-5">
-      <div class="row justify-content-center align-items-center">
-        <div class="col-auto">
-          <strong>Litros na base:</strong> <span id="totalLitros">0</span>
-        </div>
-        <div class="col-auto ms-4">
-          <strong>Lucro estimado:</strong> R$ <span id="totalProfit">0.00</span>
-        </div>
-        <div class="col-auto ms-4">
-          <button id="btnVerRegistros" class="btn btn-sm btn-outline-primary">Ver registros</button>
-        </div>
+  <!-- Sumário de óleo -->
+   <div id="oilSummary" class="container mb-5">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-auto">
+        <strong>Litros na base:</strong> <span id="totalLitros">0</span>
+      </div>
+      <div class="col-auto ms-4">
+        <strong>Lucro estimado:</strong> R$ <span id="totalProfit">0.00</span>
+      </div>
+      <div class="col-auto ms-4">
+        <button id="btnVerRegistros" class="btn btn-sm btn-outline-primary">Ver registros</button>
       </div>
     </div>
+  </div> 
 
-    <!-- Seção de Calendário e Atividades -->
-    <div class="container py-4">
-      <div class="row">
-        <!-- Coluna Esquerda - Calendário -->
-        <div class="col-md-5">
-          <div class="d-flex align-items-center mb-3">
-            <button type="button" class="btn btn-sm btn-outline-secondary me-2" onclick="prevMonth()">◀</button>
-            <h3 id="monthYear" class="mb-0"></h3>
-            <button type="button" class="btn btn-sm btn-outline-secondary ms-2" onclick="nextMonth()">▶</button>
-          </div>
-          <div id="calendarGrid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;"></div>
+
+
+
+  <!-- Seção de Calendário e Atividades -->
+  <div class="container py-4">
+    <div class="row">
+      <!-- Coluna Esquerda - Calendário -->
+      <div class="col-md-5">
+        <div class="d-flex align-items-center mb-3">
+          <button type="button" class="calendar-nav-btn me-2" onclick="prevMonth()">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <h3 id="monthYear" class="mb-0"></h3>
+          <button type="button" class="calendar-nav-btn ms-2" onclick="nextMonth()">
+            <i class="bi bi-chevron-right"></i>
+          </button>
         </div>
-        <!-- Coluna Direita - Atividades do Dia -->
-        <div class="col-md-7 ps-4">
-          <h3 class="mb-3">Atividades do Dia</h3>
-          <div
-            class="activities-container"
-            style="
+        <div id="calendarGrid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;"></div>
+      </div>
+      <!-- Coluna Direita - Atividades do Dia -->
+      <div class="col-md-7 ps-4">
+        <h3 class="mb-3">Atividades do Dia</h3>
+        <div class="activities-container" style="
               background: linear-gradient(135deg, #eafaf1 0%, #d5f4e6 100%);
               border-radius: 15px;
               padding: 20px;
               border-left: 5px solid #27ae60;
               min-height: 400px;
-            "
-          >
-            <p
-              style="
+            ">
+          <p style="
                 color: #999;
                 text-align: center;
                 padding-top: 50px;
                 font-family: &quot;Poppins&quot;, sans-serif;
-              "
-            >
-              Selecione um dia no calendário para ver as atividades
-            </p>
-          </div>
+              ">
+            Selecione um dia no calendário para ver as atividades
+          </p>
         </div>
       </div>
     </div>
+  </div>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
-    <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+  <script src="script.js"></script>
 
-    <div id="overlay" class="overlay">
-      <div class="meu-modal">
-        <h2 id="modalTitle"></h2>
+  <div id="overlay" class="overlay">
+    <div class="meu-modal">
+      <h2 id="modalTitle"></h2>
 
-        <div class="modal-body">
-          <form id="formColeta">
-            <div id="formColetaBody">
-              <div class="form-group">
-                <label>Título</label>
-                <input
-                  type="text"
-                  id="inputTitulo"
-                  placeholder="Ex: Coleta na região norte"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label>Descrição Interna</label>
-                <textarea
-                  id="inputDescricaoInterna"
-                  rows="3"
-                  placeholder="Detalhes adicionais da atividade"
-                  required
-                ></textarea>
-              </div>
-
-              <div class="form-group">
-                <label>Data</label>
-                <input type="date" id="inputData" required />
-              </div>
-
-              <div class="form-group">
-                <label>Hora</label>
-                <input type="time" id="inputHora" required />
-              </div>
+      <div class="modal-body">
+        <form id="formColeta">
+          <div id="formColetaBody">
+            <div class="form-group">
+              <label>Título</label>
+              <input type="text" id="inputTitulo" placeholder="Ex: Coleta na região norte" required />
+            </div>
+            <div class="form-group">
+              <label>Descrição Interna</label>
+              <textarea id="inputDescricaoInterna" rows="3" placeholder="Detalhes adicionais da atividade"
+                required></textarea>
             </div>
 
-            <div class="button-group">
-              <button type="submit" id="formSubmitBtn">Salvar</button>
-              <button type="button" onclick="fecharModal()">Cancelar</button>
+            <div class="form-group">
+              <label>Data</label>
+              <input type="date" id="inputData" required />
             </div>
-          </form>
-        </div>
-      </div>
-    </div>
 
-    <!-- Modal de Detalhes -->
+            <div class="form-group">
+              <label>Hora</label>
+              <input type="time" id="inputHora" required />
+            </div>
+          </div>
 
-    <!-- Modal de Registros de Óleo -->
-    <div id="modalOleoRecords" class="modal-detalhes">
-      <div class="modal-content-detalhes" style="width: 90%; max-width:800px;">
-        <button class="close-btn" onclick="fecharModalOleoRecords()">✖</button>
-        <h2>Registros de Óleo</h2>
-        <div id="oleoTableContainer" style="max-height:60vh; overflow:auto;">
-          <!-- table inserted by script -->
-        </div>
-      </div>
-    </div>
-
-    <div id="modalDetalhes" class="modal-detalhes">
-      <div class="modal-content-detalhes">
-        <button class="close-btn" onclick="fecharModalDetalhes()">✖</button>
-        <h2>Detalhes da Atividade</h2>
-        <div class="detalhes-info">
-          <div class="info-item">
-            <label>Título:</label>
-            <p id="detalhesTitulo"></p>
-          </div>
-          <div class="info-item">
-            <label>Descrição:</label>
-            <p id="detalhesDescricao"></p>
-          </div>
-          <div class="info-item">
-            <label>Hora:</label>
-            <p id="detalhesHora"></p>
-          </div>
-          <div class="info-item">
-            <label>Dia:</label>
-            <p id="detalhesDia"></p>
-          </div>
-        </div>
-        <div class="button-group">
-          <button id="btnEditarDetalhes" class="btn-edit-detalhes">
-            Editar
-          </button>
-          <button
-            type="button"
-            onclick="fecharModalDetalhes()"
-            class="btn-fechar-detalhes"
-          >
-            Fechar
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal de Edição -->
-    <div id="modalEdicao" class="modal-edicao">
-      <div class="modal-content-edicao">
-        <button class="close-btn" onclick="fecharModalEdicao()">✖</button>
-        <h2>Editar Atividade</h2>
-        <form id="formEdicao">
-          <div class="form-group">
-            <label>Título</label>
-            <input type="text" id="editTitulo" required />
-          </div>
-          <div class="form-group">
-            <label>Descrição</label>
-            <textarea id="editDescricao" rows="3" required></textarea>
-          </div>
-          <div class="form-group">
-            <label>Hora</label>
-            <input type="time" id="editHora" required />
-          </div>
           <div class="button-group">
-            <button type="submit" class="btn-salvar-edicao">Salvar</button>
-            <button
-              type="button"
-              onclick="fecharModalEdicao()"
-              class="btn-cancelar-edicao"
-            >
-              Cancelar
-            </button>
+            <button type="submit" id="formSubmitBtn">Salvar</button>
+            <button type="button" onclick="fecharModal()">Cancelar</button>
           </div>
         </form>
       </div>
     </div>
-  </body>
+  </div>
+
+  <!-- Modal de Detalhes -->
+
+  <!-- Modal de Registros de Óleo -->
+  <div id="modalOleoRecords" class="modal-detalhes">
+    <div class="modal-content-detalhes" style="width: 90%; max-width:800px;">
+      <button class="close-btn" onclick="fecharModalOleoRecords()">✖</button>
+      <h2>Registros de Óleo</h2>
+      <div id="oleoTableContainer" style="max-height:60vh; overflow:auto;">
+        <!-- table inserted by script -->
+      </div>
+    </div>
+  </div>
+
+  <div id="modalDetalhes" class="modal-detalhes">
+    <div class="modal-content-detalhes">
+      <button class="close-btn" onclick="fecharModalDetalhes()">✖</button>
+      <h2>Detalhes da Atividade</h2>
+      <div class="detalhes-info">
+        <div class="info-item">
+          <label>Título:</label>
+          <p id="detalhesTitulo"></p>
+        </div>
+        <div class="info-item">
+          <label>Descrição:</label>
+          <p id="detalhesDescricao"></p>
+        </div>
+        <div class="info-item">
+          <label>Hora:</label>
+          <p id="detalhesHora"></p>
+        </div>
+        <div class="info-item">
+          <label>Dia:</label>
+          <p id="detalhesDia"></p>
+        </div>
+      </div>
+      <div class="button-group">
+        <button id="btnEditarDetalhes" class="btn-edit-detalhes">
+          Editar
+        </button>
+        <button type="button" onclick="fecharModalDetalhes()" class="btn-fechar-detalhes">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Edição -->
+  <div id="modalEdicao" class="modal-edicao">
+    <div class="modal-content-edicao">
+      <button class="close-btn" onclick="fecharModalEdicao()">✖</button>
+      <h2>Editar Atividade</h2>
+      <form id="formEdicao">
+        <div class="form-group">
+          <label>Título</label>
+          <input type="text" id="editTitulo" required />
+        </div>
+        <div class="form-group">
+          <label>Descrição</label>
+          <textarea id="editDescricao" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Hora</label>
+          <input type="time" id="editHora" required />
+        </div>
+        <div class="button-group">
+          <button type="submit" class="btn-salvar-edicao">Salvar</button>
+          <button type="button" onclick="fecharModalEdicao()" class="btn-cancelar-edicao">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
 </html>
