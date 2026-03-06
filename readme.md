@@ -20,7 +20,7 @@ Sistema simples para controle ambiental, desenvolvido para auxiliar no gerenciam
 
 O sistema pode ser acessado pelo GitHub Pages:
 
-https://seuusuario.github.io/VACG-Ambiental/
+https://andreperinn.github.io/VACG-Ambiental/
 
 ## 📂 Como usar
 
@@ -34,4 +34,4 @@ Projeto desenvolvido por André Perin.
 
 ## 💻 Tela do sistema
 
-![](img/inicial.png)
+![](inicial.png)
